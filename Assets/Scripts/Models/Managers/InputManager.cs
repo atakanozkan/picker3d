@@ -31,13 +31,7 @@ namespace Models.Managers
 
             if (Input.GetMouseButtonDown(0))
             {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                
-                if (Physics.Raycast(ray, out hit))
-                {
-                    lastPosition = hit.point;
-                }
+                lastPosition = Input.mousePosition;
             }
 
             if (Input.GetMouseButton(0))
@@ -52,19 +46,14 @@ namespace Models.Managers
 
             if (canMoveHorizontal)
             {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    float diff = hit.point.x - targetPosition.x;
-                    targetPosition = hit.point;
-                    offset = targetPosition.z - lastPosition.z;
+                    targetPosition = Input.mousePosition;
+                    offset = targetPosition.x - lastPosition.x;
                     lastPosition = targetPosition;
                     GameManager.instance.onPlayerMoveHorizontal?.Invoke(offset);
-                }
-                
-            }}
+
+            }
+            
+        }
     }
     
 }

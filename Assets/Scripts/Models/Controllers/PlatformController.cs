@@ -1,18 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Objects;
 public class PlatformController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public List<Platform> listPlatforms;
+    private Platform currentPlatform;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        //currentPlatform = listPlatforms[0];
     }
 }
