@@ -12,7 +12,7 @@ namespace Models.Controllers
         private void Start()
         {
             player = GameManager.instance.GetPlayer();
-            distance = player.transform.position - transform.position;
+            distance = new Vector3(3f,7f,0f);
         }
 
         private void Update()
@@ -22,7 +22,7 @@ namespace Models.Controllers
 
         private void FollowPlayer()
         {
-            transform.position = player.transform.position - distance;
+            transform.position = player.transform.position + distance;
         }
     }
 }

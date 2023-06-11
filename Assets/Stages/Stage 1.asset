@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02749076d767b4921b63fb5d8e709fe8, type: 3}
+  m_Name: Stage 1
+  m_EditorClassIdentifier: 
+  stageName: Stage 1
+  stageObject: {fileID: 1020207579852937383, guid: 03d9f168dfb92492fb0794ec90107782, type: 3}
+  ballPositionsList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  stageIndex: 1
+  ballNeeded: 5
+  isEndStage: 0
