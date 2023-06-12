@@ -15,7 +15,7 @@ public class PlatformCollector : MonoBehaviour
         public bool isCollisonClosed = false;
         private int _numberOfCollected = 0;
         private int _numberOfLimit;
-    #endregion
+        #endregion
 
     #region SERIALIZEFIELDS
         [SerializeField] private TextMeshPro text;
@@ -121,10 +121,12 @@ public class PlatformCollector : MonoBehaviour
     }
 
 
+
     private void WaitDroppingFinish(GameState state)
     {
         if (state.HasFlag(GameState.Dropping))
         {
+            Debug.Log("Start coroutine");
             StartCoroutine(DelayCollection());
         }
     }

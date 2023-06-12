@@ -52,7 +52,7 @@ namespace Models.Builders
 
             for (int index = 0; index < level.stages.Count; index++)
             {
-                
+                Debug.Log( level.stages[index]);
                 Stage stage = level.stages[index];
                 
                 PoolItem stageItem = PoolManager.instance.GetFromPool(stage.ItemType,null);

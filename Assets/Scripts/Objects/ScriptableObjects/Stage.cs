@@ -7,7 +7,6 @@ using UnityEngine;
 public class Stage : ScriptableObject
 {
     public String stageName;
-    public GameObject stageObject;
     public int stageIndex;
     public PoolItemType ItemType;
     public int ballNeeded;

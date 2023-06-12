@@ -1148,6 +1148,7 @@ MonoBehaviour:
   stageList:
   - {fileID: 1020207579852937383, guid: beb5ebb074cb340baa09dffa5f7bf6ff, type: 3}
   - {fileID: 1020207579852937383, guid: 03d9f168dfb92492fb0794ec90107782, type: 3}
+  - {fileID: 1020207579852937383, guid: 2576c00648e6640de932c4619235cf6e, type: 3}
   - {fileID: 1020207579852937383, guid: 32e2ac8c7d6ba4efeb12c3cd932ee019, type: 3}
 --- !u!4 &1068112757
 Transform:
@@ -2098,8 +2099,9 @@ MonoBehaviour:
   prefabList:
   - {fileID: -2805337820893415464, guid: 14ac9ab2312ce46eabce64d78ec01238, type: 3}
   - {fileID: -7509067929374931455, guid: 03d9f168dfb92492fb0794ec90107782, type: 3}
-  - {fileID: -7509067929374931455, guid: 32e2ac8c7d6ba4efeb12c3cd932ee019, type: 3}
+  - {fileID: -7509067929374931455, guid: 2576c00648e6640de932c4619235cf6e, type: 3}
   - {fileID: -7509067929374931455, guid: beb5ebb074cb340baa09dffa5f7bf6ff, type: 3}
+  - {fileID: -7509067929374931455, guid: 32e2ac8c7d6ba4efeb12c3cd932ee019, type: 3}
   objectPoolList: []
 --- !u!4 &1820633205
 Transform:
