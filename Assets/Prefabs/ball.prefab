@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7317346ca44a548e683c8d46fc32a32b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceRate: 300
+  forceRate: 500
   _rigidBody: {fileID: 9156593840220964272}
   explosionPrefab: {fileID: 3207236462258456072, guid: 53409537604d54703a6ba4831a257140, type: 3}
   item: {fileID: -2805337820893415464}

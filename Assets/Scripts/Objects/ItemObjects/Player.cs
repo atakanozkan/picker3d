@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
                 hasEnteredEndStage = true;
                 Debug.Log(other.tag);
                 stageBehaviour.stageDropDone = true;
+                
                 GameManager.instance.ChangeGameState(GameState.Dropping);
             }
         }

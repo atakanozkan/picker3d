@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (Input.GetMouseButton(0))
             {
-                _movement = (Input.mousePosition.x - _lastPosition.x) / Screen.width * 2.5f;
+                _movement = (Input.mousePosition.x - _lastPosition.x) / Screen.width;
                 _lastPosition = Input.mousePosition;
             }
             else

@@ -19,7 +19,7 @@ namespace Models.Managers
         [SerializeField] private PlayerController playerController;
         private void Start()
         {
-            ChangeGameState(GameState.Moving);
+            ChangeGameState(GameState.Default);
         }
 
         public void ChangeGameState(GameState state)

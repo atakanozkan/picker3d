@@ -120,6 +120,7 @@ public class PlatformCollector : MonoBehaviour
         CheckStageDone();
     }
 
+
     private void WaitDroppingFinish(GameState state)
     {
         if (state.HasFlag(GameState.Dropping))
