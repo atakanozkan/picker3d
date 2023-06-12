@@ -11,13 +11,11 @@ namespace Models.Managers
         public GameState currentGameState;
         public Player mainPlayer;
         public Action<GameState> OnGameStateChanged;
-        public Action<float> onPlayerMove;
         public Action onStageEnd;
         public Action onCollectedBallEvent;
 
         [SerializeField] private PlatformBuilder platformBuilder;
         [SerializeField] private PlatformController platformController;
-        [SerializeField] private CollectManager collectManager;
         [SerializeField] private PlayerController playerController;
         private void Start()
         {
@@ -53,16 +51,6 @@ namespace Models.Managers
             platformBuilder = builder;
         }
 
-        public CollectManager GetCollectManager()
-        {
-            return collectManager;
-        }
-
-        public void SetCollectManager(CollectManager manager)
-        {
-            collectManager = manager;
-        }
-        
         public PlatformController GetPlatformController()
         {
             return platformController;

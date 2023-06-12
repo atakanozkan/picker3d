@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private Player player;
     [SerializeField] private Rigidbody myRb;
     private bool canMove;
-    private Vector3 mousePosition;
+    private Vector3 lastPosition;
     private float movement;
     private void Start()
     {
@@ -42,16 +42,15 @@ public class PlayerController : MonoBehaviour
     private void GetHorizontalMovement()
     {
         if (canMove)
-        { 
-            //Horizontal Calc
+        {
             if (Input.GetMouseButtonDown(0))
             {
-                mousePosition = Input.mousePosition;
+                lastPosition = Input.mousePosition;
             }
             else if (Input.GetMouseButton(0))
             {
-                movement = (Input.mousePosition.x - mousePosition.x) / Screen.width * 2.5f;
-                mousePosition = Input.mousePosition;
+                movement = (Input.mousePosition.x - lastPosition.x) / Screen.width * 2.5f;
+                lastPosition = Input.mousePosition;
             }
             else
             {

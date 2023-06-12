@@ -11,12 +11,12 @@ using UnityEngine.Serialization;
 public class PlatformCollector : MonoBehaviour
 {
     [SerializeField] private TextMeshPro text;
-    [SerializeField] private GameObject barricadeLine;
-    [SerializeField] private BoxCollider _collider;
     [SerializeField] private GameObject upPoint;
     [SerializeField] private List<Ball> collectedBalls;
     [SerializeField] private MeshRenderer cubeRenderer;
+    [SerializeField] private BoxCollider dropLine;
     [SerializeField] private List<GameObject> listRedBarricades;
+    [SerializeField] private List<GameObject> barricadeLineParents;
     public bool isPlatformUp = false;
     public bool isCollisonClosed = false;
     private int numberofcollected = 0;
@@ -49,6 +49,14 @@ public class PlatformCollector : MonoBehaviour
             return;
         }
 
+        if (!isCollisonClosed)
+        {
+            isCollisonClosed = true;
+        }
+        else
+        {
+            return;
+        }
         MoveThePlatform();
         GameManager.instance.onStageEnd?.Invoke();
     }
@@ -73,18 +81,20 @@ public class PlatformCollector : MonoBehaviour
             .OnComplete(() =>
             {
                 cubeRenderer.material.color = targetColor;
-
+                RotateTheBarricadeLines();
                 isPlatformUp = true;
                 GameManager.instance.ChangeGameState(GameState.Moving);
+               SetLimit(GameManager.instance.GetPlatformController().GetLCurrentLimitBall());
             });
     }
+    
+    
     
     private IEnumerator DelayCollection()
     {
         yield return new WaitForSeconds(2);
         GameManager.instance.onCollectedBallEvent?.Invoke();
-        isCollisonClosed = true;
-        MoveThePlatform();
+        CheckStageDone();
     }
 
     private void WaitDroppingFinish(GameState state)
@@ -102,12 +112,26 @@ public class PlatformCollector : MonoBehaviour
             barricade.SetActive(false);
         }
     }
+
+    private void RotateTheBarricadeLines()
+    {
+        foreach (var barricade in barricadeLineParents )
+        {
+            barricade.transform.DORotate(new Vector3(90, 0, 0), 1.5f);
+        }
+    }
     
     public void SetText(String str)
     {
         text.text = str;
     }
 
+    private void UpdateNextPlatform()
+    {
+        
+    }
+    
+    
     private void OnEnable()
     {
         GameManager.instance.OnGameStateChanged += WaitDroppingFinish;

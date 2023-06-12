@@ -6,8 +6,7 @@ using Objects;
 public class PlatformController : MonoBehaviour
 {
     public List<StageBehaviour> listStages;
-    public List<Ball> currentBalls;
-    private int currentIndex;
+    [SerializeField] private int currentIndex;
     private StageBehaviour currentStageBehaviour;
 
     private void Start()
@@ -34,7 +33,18 @@ public class PlatformController : MonoBehaviour
 
     public void UpdateCurrentBehaviour(int stageIndex)
     {
+        if (listStages.Count <= currentIndex)
+        {
+            return;
+        }
+
         currentIndex = stageIndex;
         currentStageBehaviour = listStages[currentIndex];
+    }
+    
+
+    private void OnEnable()
+    {
+        
     }
 }

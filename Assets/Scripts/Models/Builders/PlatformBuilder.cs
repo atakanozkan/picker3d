@@ -57,6 +57,7 @@ namespace Models.Builders
                 Debug.Log(stageItem);
                 StageBehaviour stageBehaviour = stageItem.GetComponent<StageBehaviour>();
                 
+                
                 if (index == 0)
                 {
                     stageItem.gameObject.transform.position = transform.position;
@@ -74,15 +75,14 @@ namespace Models.Builders
                 
             
                 platformController.AddStageToList(stageBehaviour);
-            
-
-            
-
+                
+                    
                 foreach (var obj in stageBehaviour.ballPositionList)
                 {
                     PoolItem item = PoolManager.instance.GetFromPool(PoolItemType.Ball,ballsParent.transform);
                     item.transform.position = obj.transform.position;
                 }
+
             }
 
 

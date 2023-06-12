@@ -9,15 +9,18 @@ public class Player : MonoBehaviour
     public float horizontalSpeed = 5.0f;
     public float forwardSpeed = 10.0f;
     [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private bool hasEnteredEndStage = false;
     
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
-        if (other.CompareTag("StageEnd"))
+        
+        if (!hasEnteredEndStage && other.CompareTag("StageEnd"))
         {
             StageBehaviour stageBehaviour = GameManager.instance.GetPlatformController().GetCurrentStage();
-            if (!stageBehaviour.stageDropDone )
+            if (!stageBehaviour.stageDropDone)
             {
+                hasEnteredEndStage = true;
+                Debug.Log(other.tag);
                 stageBehaviour.stageDropDone = true;
                 GameManager.instance.ChangeGameState(GameState.Dropping);
             }
@@ -39,6 +42,10 @@ public class Player : MonoBehaviour
         {
             Ball ball = other.GetComponent<Ball>();
             ball.SetInside(false);
+        }
+        else if (other.CompareTag("StageEnd"))
+        {
+            hasEnteredEndStage = false;
         }
     }
 

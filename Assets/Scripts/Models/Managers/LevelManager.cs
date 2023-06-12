@@ -9,8 +9,8 @@ using UnityEngine;
 public class LevelManager : Singleton<LevelManager>
 {
     [SerializeField] private List<Level> levelList;
-    private int currentLevelIndex;
-    private int currentStageIndex;
+    [SerializeField] private int currentLevelIndex;
+    [SerializeField] private int currentStageIndex;
 
     private void Start()
     {
@@ -72,12 +72,23 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
-    public void UnlockNextStage()
+    private void UnlockNextStage()
     {
-        currentStageIndex++;
+        CheckAndIncreaseStage();
         GameManager.instance.GetPlatformController().UpdateCurrentBehaviour(currentStageIndex);
     }
 
+    private void CheckAndIncreaseStage()
+    {
+        Level level = GetCurrentLevelData();
+        if (level.stages.Count <= currentStageIndex)
+        {
+            return;
+        }
+
+        currentStageIndex++;
+    }
+    
     private void OnApplicationQuit()
     {
         SaveData();
