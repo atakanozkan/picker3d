@@ -11,6 +11,7 @@ namespace Models.Builders
         public GameObject ballsParent;
         public GameObject player;
         public GameObject stage1;
+        public GameObject stage2;
 
         private PlatformController platformController;
         
@@ -37,6 +38,12 @@ namespace Models.Builders
                 GameObject stage = Instantiate(stage1);
                 PoolManager.instance.AddToAvailable(stage.GetComponent<PoolItem>());
             }
+
+            for (int i = 0; i < 2; i++)
+            {
+                GameObject stage = Instantiate(stage2);
+                PoolManager.instance.AddToAvailable(stage.GetComponent<PoolItem>());
+            }
         }
         
         public void BuildLevel(Level level,int stageIndex)
@@ -45,8 +52,9 @@ namespace Models.Builders
             {
                 
                 Stage stage = level.stages[index];
-            
+                
                 PoolItem stageItem = PoolManager.instance.GetFromPool(stage.ItemType,null);
+                Debug.Log(stageItem);
                 StageBehaviour stageBehaviour = stageItem.GetComponent<StageBehaviour>();
                 
                 if (index == 0)

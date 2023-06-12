@@ -9,7 +9,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Player player;
+    [SerializeField] private Rigidbody myRb;
     private bool canMove;
+    private Vector3 mousePosition;
     private float movement;
     private void Start()
     {
@@ -18,29 +20,47 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        GetHorizontalMovement();
+    }
+    private void FixedUpdate()
+    {   
         MovePlayer();
     }
 
     private void MovePlayer()
     {
-        if (!canMove)
+        if (canMove)
         {
-            return;
+            myRb.MovePosition(new Vector3(
+                myRb.transform.position.x- (player.forwardSpeed * Time.fixedDeltaTime),
+                myRb.transform.position.y,
+                Mathf.Clamp(myRb.transform.position.z + (movement * player.horizontalSpeed * Time.fixedDeltaTime), -3.5f, 3f)
+            ));
         }
-        Vector3 playerPosition = player.transform.position;
-
-        float positionForward = playerPosition.x - (player.forwardSpeed * Time.deltaTime);
-    
-        player.GetRigidbody().MovePosition(new Vector3(
-            positionForward,
-            playerPosition.y,
-            Mathf.Clamp(playerPosition.z + (movement * player.horizontalSpeed * Time.fixedDeltaTime), -3.5f, 3f)
-        ));
     }
 
+    private void GetHorizontalMovement()
+    {
+        if (canMove)
+        { 
+            //Horizontal Calc
+            if (Input.GetMouseButtonDown(0))
+            {
+                mousePosition = Input.mousePosition;
+            }
+            else if (Input.GetMouseButton(0))
+            {
+                movement = (Input.mousePosition.x - mousePosition.x) / Screen.width * 2.5f;
+                mousePosition = Input.mousePosition;
+            }
+            else
+            {
+                movement = 0;
+            }   
+        }
+    }
 
-
-    public void CheckStateMoving(GameState state)
+    private void CheckStateMoving(GameState state)
     {
         if (state.HasFlag(GameState.Moving))
         {

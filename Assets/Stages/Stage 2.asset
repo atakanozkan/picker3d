@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Stage 2
   m_EditorClassIdentifier: 
   stageName: Stage 2
-  stageObject: {fileID: 1020207579852937383, guid: f6ef9306d7ea44faba9919a614cf9bb9, type: 3}
+  stageObject: {fileID: 1020207579852937383, guid: c01f329d0a831420da383da54610fe74, type: 3}
   stageIndex: 2
-  ItemType: 1
-  ballNeeded: 0
+  ItemType: 2
+  ballNeeded: 8
   isEndStage: 1

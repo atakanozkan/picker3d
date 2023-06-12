@@ -72,6 +72,12 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
+    public void UnlockNextStage()
+    {
+        currentStageIndex++;
+        GameManager.instance.GetPlatformController().UpdateCurrentBehaviour(currentStageIndex);
+    }
+
     private void OnApplicationQuit()
     {
         SaveData();
@@ -80,10 +86,12 @@ public class LevelManager : Singleton<LevelManager>
     private void OnEnable()
     {
         GameManager.instance.OnGameStateChanged += GoToNextLevel;
+        GameManager.instance.onStageEnd += UnlockNextStage;
     }
 
     private void OnDisable()
     {
         GameManager.instance.OnGameStateChanged -= GoToNextLevel;
+        GameManager.instance.onStageEnd -= UnlockNextStage;
     }
 }

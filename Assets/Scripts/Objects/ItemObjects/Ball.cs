@@ -26,7 +26,7 @@ public class Ball : Collectable
         if (isInsidePlayer && state.HasFlag(GameState.Dropping))
         {
             Debug.Log("Ball is ready to drop");
-            //Throw();
+            Throw();
         }
 
     }
@@ -45,8 +45,6 @@ public class Ball : Collectable
             transform.position.y + 10f, transform.position.z);
         
         Vector3 forceDirection = aimVector.normalized;
-        _rigidBody.velocity = Vector3.zero;
-        _rigidBody.angularVelocity = Vector3.zero;
         _rigidBody.AddForce(forceDirection*forceRate);
         Debug.Log("forced");
         isInsidePlayer = false;

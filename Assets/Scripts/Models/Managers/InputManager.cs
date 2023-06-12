@@ -16,38 +16,10 @@ namespace Models.Managers
 
         private void Start()
         {
-            cam= Camera.main;
-            playerController = GameManager.instance.GetPlayerController();
         }
 
         void Update()
         {
-            GetHorizontalInput();
-        }
-
-        private void GetHorizontalInput()
-        {
-            if (!GameManager.instance.currentGameState.HasFlag(GameState.Moving))
-            {
-                return;
-            }
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                lastPosition = Input.mousePosition;
-            }
-
-            else if (Input.GetMouseButton(0))
-            {
-                targetPosition = Input.mousePosition;
-                offset = (targetPosition.x - lastPosition.x) / Screen.width * 2.5f;
-                lastPosition = targetPosition;
-            }
-            else
-            {
-                offset = 0;
-            }
-            playerController.SetHorizontalMovement(offset);
         }
     }
     

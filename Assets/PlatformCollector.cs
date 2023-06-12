@@ -42,13 +42,19 @@ public class PlatformCollector : MonoBehaviour
         numberOfLimit = limit;
     }
 
-    private void MoveThePlatform()
+    private void CheckStageDone()
     {
         if (numberofcollected < numberOfLimit)
         {
             return;
         }
 
+        MoveThePlatform();
+        GameManager.instance.onStageEnd?.Invoke();
+    }
+    
+    private void MoveThePlatform()
+    {
         Color targetColor = new Color(80/255f, 248/255f, 6/255f); // Color #50F806
         Vector3 targetVector = new Vector3(transform.position.x,
             upPoint.transform.position.y,

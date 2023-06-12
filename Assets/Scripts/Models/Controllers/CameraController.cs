@@ -4,26 +4,28 @@ using UnityEngine;
 
 namespace Models.Controllers
 {
-    public class CameraController : MonoBehaviour
+    using UnityEngine;
+
+    
+    public class CameraController: MonoBehaviour
     {
-        private Player player;
-        private Vector3 distance;
+        public Transform target;
+        public float speed = 5f;
+        private Vector3 offset;
 
         private void Start()
         {
-            player = GameManager.instance.GetPlayer();
-            distance = new Vector3(3f,7f,0f);
+            offset = transform.position - target.position;
         }
 
-        private void Update()
+        private void LateUpdate()
         {
-            FollowPlayer();
-        }
+            Vector3 newPosition = target.position + offset;
+            newPosition.z = transform.position.z;
 
-        private void FollowPlayer()
-        {
-            transform.position = player.transform.position + distance;
+            transform.position = Vector3.Lerp(transform.position, newPosition, speed * Time.deltaTime);
         }
     }
+
 }
 

@@ -7,11 +7,13 @@ public class PlatformController : MonoBehaviour
 {
     public List<StageBehaviour> listStages;
     public List<Ball> currentBalls;
+    private int currentIndex;
     private StageBehaviour currentStageBehaviour;
 
     private void Start()
     {
-        currentStageBehaviour = listStages[LevelManager.instance.GetCurrentStagIndex()];
+        currentIndex = LevelManager.instance.GetCurrentStagIndex();
+        currentStageBehaviour = listStages[currentIndex];
     }
 
     public void AddStageToList(StageBehaviour behaviour)
@@ -29,6 +31,10 @@ public class PlatformController : MonoBehaviour
         Stage data = LevelManager.instance.GetCurrentStageData();
         return data.ballNeeded;
     }
-    
-    
+
+    public void UpdateCurrentBehaviour(int stageIndex)
+    {
+        currentIndex = stageIndex;
+        currentStageBehaviour = listStages[currentIndex];
+    }
 }
