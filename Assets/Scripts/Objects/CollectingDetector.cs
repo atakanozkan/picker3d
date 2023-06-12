@@ -19,7 +19,6 @@ public class CollectingDetector : MonoBehaviour
         GameObject collider = collision.collider.gameObject;
         if (collider.CompareTag("Ball"))
         {
-            Debug.Log("Ball Received!");
             Ball ball = collider.GetComponent<Ball>();
             collector.CollectArrivedBall(ball);
             ball.Explode();

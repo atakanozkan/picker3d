@@ -11,8 +11,8 @@ namespace Models.Managers
         public GameState currentGameState;
         public Player mainPlayer;
         public Action<GameState> OnGameStateChanged;
-        public Action onStageEnd;
-        public Action onCollectedBallEvent;
+        public Action OnStageEnd;
+        public Action OnCollectedBallEvent;
 
         [SerializeField] private PlatformBuilder platformBuilder;
         [SerializeField] private PlatformController platformController;

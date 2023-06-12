@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         }
         else if (other.CompareTag("LevelEnd"))
         {
-            
+            GameManager.instance.ChangeGameState(GameState.Win);
         }
         else if (other.CompareTag("Ball"))
         {

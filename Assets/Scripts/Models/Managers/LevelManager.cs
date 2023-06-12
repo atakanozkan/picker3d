@@ -97,12 +97,12 @@ public class LevelManager : Singleton<LevelManager>
     private void OnEnable()
     {
         GameManager.instance.OnGameStateChanged += GoToNextLevel;
-        GameManager.instance.onStageEnd += UnlockNextStage;
+        GameManager.instance.OnStageEnd += UnlockNextStage;
     }
 
     private void OnDisable()
     {
         GameManager.instance.OnGameStateChanged -= GoToNextLevel;
-        GameManager.instance.onStageEnd -= UnlockNextStage;
+        GameManager.instance.OnStageEnd -= UnlockNextStage;
     }
 }

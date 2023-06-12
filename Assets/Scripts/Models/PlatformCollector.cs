@@ -10,41 +10,60 @@ using UnityEngine.Serialization;
 
 public class PlatformCollector : MonoBehaviour
 {
-    [SerializeField] private TextMeshPro text;
-    [SerializeField] private GameObject upPoint;
-    [SerializeField] private List<Ball> collectedBalls;
-    [SerializeField] private MeshRenderer cubeRenderer;
-    [SerializeField] private BoxCollider dropLine;
-    [SerializeField] private List<GameObject> listRedBarricades;
-    [SerializeField] private List<GameObject> barricadeLineParents;
-    public bool isPlatformUp = false;
-    public bool isCollisonClosed = false;
-    private int numberofcollected = 0;
-    private int numberOfLimit;
+    #region PUBLIC FILEDS
+        public bool isPlatformUp = false;
+        public bool isCollisonClosed = false;
+        private int _numberOfCollected = 0;
+        private int _numberOfLimit;
+    #endregion
+
+    #region SERIALIZEFIELDS
+        [SerializeField] private TextMeshPro text;
+        [SerializeField] private GameObject upPoint;
+        [SerializeField] private List<Ball> collectedBalls;
+        [SerializeField] private MeshRenderer cubeRenderer;
+        [SerializeField] private BoxCollider dropLine;
+        [SerializeField] private List<GameObject> listRedBarricades;
+        [SerializeField] private List<GameObject> barricadeLineParents;
+    #endregion
+
+ 
 
     private void Start()
     {
         SetLimit(GameManager.instance.GetPlatformController().GetLCurrentLimitBall());
-        String initialMessage = "0/" + numberOfLimit;
+        String initialMessage = "0/" + _numberOfLimit;
         SetText(initialMessage);
+    }
+
+    private void Update()
+    {
+        int tempLimit = GameManager.instance.GetPlatformController().GetLCurrentLimitBall();
+        if (_numberOfLimit != tempLimit)
+        {
+            SetLimit(tempLimit);
+        }
+        
     }
 
     public void CollectArrivedBall(Ball ball)
     {
         collectedBalls.Add(ball);
-        numberofcollected++;
-        String collectedMessage = collectedBalls.Count+"/"+numberOfLimit;
+        _numberOfCollected++;
+        String collectedMessage = collectedBalls.Count+"/"+_numberOfLimit;
         SetText(collectedMessage);
     }
 
-    public void SetLimit(int limit)
+    private void SetLimit(int limit)
     {
-        numberOfLimit = limit;
+        _numberOfLimit = limit;
+        String resetMessage = 0+"/"+_numberOfLimit;
+        SetText(resetMessage);
     }
 
     private void CheckStageDone()
     {
-        if (numberofcollected < numberOfLimit)
+        if (_numberOfCollected < _numberOfLimit)
         {
             return;
         }
@@ -58,7 +77,7 @@ public class PlatformCollector : MonoBehaviour
             return;
         }
         MoveThePlatform();
-        GameManager.instance.onStageEnd?.Invoke();
+        
     }
     
     private void MoveThePlatform()
@@ -81,19 +100,23 @@ public class PlatformCollector : MonoBehaviour
             .OnComplete(() =>
             {
                 cubeRenderer.material.color = targetColor;
-                RotateTheBarricadeLines();
-                isPlatformUp = true;
-                GameManager.instance.ChangeGameState(GameState.Moving);
-               SetLimit(GameManager.instance.GetPlatformController().GetLCurrentLimitBall());
+                EnableMovementNextStage();
             });
     }
-    
-    
+
+    private void EnableMovementNextStage()
+    {
+        RotateTheBarricadeLines();
+        isPlatformUp = true;
+        collectedBalls.Clear();
+        GameManager.instance.OnStageEnd?.Invoke();
+        GameManager.instance.ChangeGameState(GameState.Moving);
+    }
     
     private IEnumerator DelayCollection()
     {
         yield return new WaitForSeconds(2);
-        GameManager.instance.onCollectedBallEvent?.Invoke();
+        GameManager.instance.OnCollectedBallEvent?.Invoke();
         CheckStageDone();
     }
 
@@ -105,7 +128,7 @@ public class PlatformCollector : MonoBehaviour
         }
     }
 
-    public void UnActivateRedBarricades()
+    private void UnActivateRedBarricades()
     {
         foreach (var barricade in listRedBarricades)
         {
@@ -121,16 +144,10 @@ public class PlatformCollector : MonoBehaviour
         }
     }
     
-    public void SetText(String str)
+    private void SetText(String str)
     {
         text.text = str;
     }
-
-    private void UpdateNextPlatform()
-    {
-        
-    }
-    
     
     private void OnEnable()
     {

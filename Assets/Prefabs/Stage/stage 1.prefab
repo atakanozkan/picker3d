@@ -1980,6 +1980,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe538864183a04fda9dce4c707be4e31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlatformUp: 0
+  isCollisonClosed: 0
   text: {fileID: 3860951023293784006}
   upPoint: {fileID: 3230143756764354653}
   collectedBalls: []
@@ -1992,8 +1994,6 @@ MonoBehaviour:
   barricadeLineParents:
   - {fileID: 3417942771417057669}
   - {fileID: 1670595198039848752}
-  isPlatformUp: 0
-  isCollisonClosed: 0
 --- !u!1 &7203566519832981498
 GameObject:
   m_ObjectHideFlags: 0
@@ -2209,8 +2209,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7622278831951568466}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: -2.53, z: 0}
-  m_LocalScale: {x: 7.620001, y: 1, z: 9.2}
+  m_LocalPosition: {x: -1.7582, y: -2.53, z: 0}
+  m_LocalScale: {x: 10.024156, y: 1, z: 9.2}
   m_Children: []
   m_Father: {fileID: 5478229442128504126}
   m_RootOrder: 0

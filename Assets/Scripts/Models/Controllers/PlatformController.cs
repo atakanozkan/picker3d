@@ -28,23 +28,18 @@ public class PlatformController : MonoBehaviour
     public int GetLCurrentLimitBall()
     {
         Stage data = LevelManager.instance.GetCurrentStageData();
+        Debug.Log(" NEW LIMIT " + data.name + " : "+data.ballNeeded);
         return data.ballNeeded;
     }
 
     public void UpdateCurrentBehaviour(int stageIndex)
     {
-        if (listStages.Count <= currentIndex)
+        if (listStages.Count <= stageIndex)
         {
             return;
         }
 
         currentIndex = stageIndex;
         currentStageBehaviour = listStages[currentIndex];
-    }
-    
-
-    private void OnEnable()
-    {
-        
     }
 }

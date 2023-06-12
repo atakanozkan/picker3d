@@ -8,16 +8,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Player player;
+    
     [SerializeField] private Rigidbody myRb;
-    private bool canMove;
-    private Vector3 lastPosition;
-    private float movement;
-    private void Start()
-    {
-        player = GameManager.instance.GetPlayer();
-    }
-
+    
+    [SerializeField] private Player player;
+    private bool _canMove;
+    private Vector3 _lastPosition;
+    private float _movement;
+    
     private void Update()
     {
         GetHorizontalMovement();
@@ -29,32 +27,34 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (canMove)
+        if (_canMove)
         {
+            Vector3 myRbPosition = myRb.transform.position;
+            
             myRb.MovePosition(new Vector3(
-                myRb.transform.position.x- (player.forwardSpeed * Time.fixedDeltaTime),
-                myRb.transform.position.y,
-                Mathf.Clamp(myRb.transform.position.z + (movement * player.horizontalSpeed * Time.fixedDeltaTime), -3.5f, 3f)
+                myRbPosition.x- (player.forwardSpeed * Time.fixedDeltaTime),
+                myRbPosition.y,
+                Mathf.Clamp(myRbPosition.z + (_movement * player.horizontalSpeed * Time.fixedDeltaTime), -3.5f, 3f)
             ));
         }
     }
 
     private void GetHorizontalMovement()
     {
-        if (canMove)
+        if (_canMove)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                lastPosition = Input.mousePosition;
+                _lastPosition = Input.mousePosition;
             }
             else if (Input.GetMouseButton(0))
             {
-                movement = (Input.mousePosition.x - lastPosition.x) / Screen.width * 2.5f;
-                lastPosition = Input.mousePosition;
+                _movement = (Input.mousePosition.x - _lastPosition.x) / Screen.width * 2.5f;
+                _lastPosition = Input.mousePosition;
             }
             else
             {
-                movement = 0;
+                _movement = 0;
             }   
         }
     }
@@ -63,11 +63,11 @@ public class PlayerController : MonoBehaviour
     {
         if (state.HasFlag(GameState.Moving))
         {
-            canMove = true;
+            _canMove = true;
         }
         else
         {
-            canMove = false;
+            _canMove = false;
         }
     }
     private void OnEnable()
@@ -78,10 +78,5 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         GameManager.instance.OnGameStateChanged -= CheckStateMoving;
-    }
-
-    public void SetHorizontalMovement(float movement)
-    {
-        this.movement = movement;
     }
 }

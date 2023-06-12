@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Models.Managers;
 using UnityEngine;
 using Objects.Poolings;
@@ -10,8 +11,7 @@ namespace Models.Builders
         public GameObject ballPrefab;
         public GameObject ballsParent;
         public GameObject player;
-        public GameObject stage1;
-        public GameObject stage2;
+        public List<GameObject> stageList;
 
         private PlatformController platformController;
         
@@ -33,28 +33,29 @@ namespace Models.Builders
 
         private void GenerateStages()
         {
-            for (int i = 0; i < 2; i++)
+            foreach (var stage in stageList)
             {
-                GameObject stage = Instantiate(stage1);
-                PoolManager.instance.AddToAvailable(stage.GetComponent<PoolItem>());
-            }
-
-            for (int i = 0; i < 2; i++)
-            {
-                GameObject stage = Instantiate(stage2);
-                PoolManager.instance.AddToAvailable(stage.GetComponent<PoolItem>());
+                for (int i = 0; i < 2; i++)
+                {
+                    GameObject stageObj = Instantiate(stage);
+                    PoolManager.instance.AddToAvailable(stageObj.GetComponent<PoolItem>());
+                }
             }
         }
         
         public void BuildLevel(Level level,int stageIndex)
         {
-            for (int index = 0; index < 2; index++)
+            foreach (Stage stage in level.stages)
+            {
+                Debug.Log(stage);
+            }
+
+            for (int index = 0; index < level.stages.Count; index++)
             {
                 
                 Stage stage = level.stages[index];
                 
                 PoolItem stageItem = PoolManager.instance.GetFromPool(stage.ItemType,null);
-                Debug.Log(stageItem);
                 StageBehaviour stageBehaviour = stageItem.GetComponent<StageBehaviour>();
                 
                 

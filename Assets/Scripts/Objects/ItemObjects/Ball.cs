@@ -21,11 +21,10 @@ public class Ball : Collectable
         isInsidePlayer = inside;
     }
 
-    public void DropInsideBall(GameState state)
+    private void DropInsideBall(GameState state)
     {
         if (isInsidePlayer && state.HasFlag(GameState.Dropping))
         {
-            Debug.Log("Ball is ready to drop");
             Throw();
         }
 
@@ -41,12 +40,11 @@ public class Ball : Collectable
 
     public void Throw()
     {
-        Vector3 aimVector = transform.position + new Vector3(transform.position.x + 10f,
-            transform.position.y + 10f, transform.position.z);
+        Vector3 aimVector = transform.position + new Vector3(_rigidBody.position.x + 10f,
+            _rigidBody.position.y + 10f, _rigidBody.position.z);
         
         Vector3 forceDirection = aimVector.normalized;
         _rigidBody.AddForce(forceDirection*forceRate);
-        Debug.Log("forced");
         isInsidePlayer = false;
     }
     
