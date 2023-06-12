@@ -9,5 +9,6 @@ public class StageBehaviour : MonoBehaviour
     public BoxCollider dropPoint;
     public GameObject startPoint;
     public GameObject endPoint;
+    public bool stageDropDone = false;
     public TextMeshPro TextMeshPro;
 }

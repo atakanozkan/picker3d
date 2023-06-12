@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Helpers.Enums;
 using Models.Managers;
 using UnityEngine;
@@ -8,7 +9,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Player player;
-    private bool canMoveForward;
+    private bool canMove;
+    private float movement;
     private void Start()
     {
         player = GameManager.instance.GetPlayer();
@@ -16,57 +18,51 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        MovePlayerForward();
+        MovePlayer();
     }
 
-    public void MovePlayerHorizontal(float movement)
+    private void MovePlayer()
     {
-        Vector3 playerPosition = player.transform.position;
-        Vector3 targetPosition = new Vector3(
-            playerPosition.x,
-            playerPosition.y,
-            playerPosition.z + movement
-        );
-        player.transform.position = Vector3.Lerp(playerPosition, targetPosition, player.horizontalSpeed * Time.deltaTime);
-
-    }
-
-    public void MovePlayerForward()
-    {
-        if (!canMoveForward)
+        if (!canMove)
         {
             return;
         }
-        
         Vector3 playerPosition = player.transform.position;
-        Vector3 targetPosition = new Vector3(
-            playerPosition.x-player.forwardSpeed*Time.deltaTime,
+
+        float positionForward = playerPosition.x - (player.forwardSpeed * Time.deltaTime);
+    
+        player.GetRigidbody().MovePosition(new Vector3(
+            positionForward,
             playerPosition.y,
-            playerPosition.z
-        );
-        player.transform.position = targetPosition;
+            Mathf.Clamp(playerPosition.z + (movement * player.horizontalSpeed * Time.fixedDeltaTime), -3.5f, 3f)
+        ));
     }
+
+
 
     public void CheckStateMoving(GameState state)
     {
         if (state.HasFlag(GameState.Moving))
         {
-            canMoveForward = true;
+            canMove = true;
         }
         else
         {
-            canMoveForward = false;
+            canMove = false;
         }
     }
     private void OnEnable()
     {
-        GameManager.instance.onPlayerMoveHorizontal += MovePlayerHorizontal;
         GameManager.instance.OnGameStateChanged += CheckStateMoving;
     }
 
     private void OnDisable()
     {
-        GameManager.instance.onPlayerMoveHorizontal -= MovePlayerHorizontal;
         GameManager.instance.OnGameStateChanged -= CheckStateMoving;
+    }
+
+    public void SetHorizontalMovement(float movement)
+    {
+        this.movement = movement;
     }
 }

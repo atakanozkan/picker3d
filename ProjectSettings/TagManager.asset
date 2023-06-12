@@ -6,6 +6,9 @@ TagManager:
   tags:
   - attractable
   - Ball
+  - Picker
+  - StageEnd
+  - LevelEnd
   layers:
   - Default
   - TransparentFX

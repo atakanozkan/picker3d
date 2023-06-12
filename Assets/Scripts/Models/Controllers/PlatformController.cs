@@ -5,11 +5,30 @@ using UnityEngine;
 using Objects;
 public class PlatformController : MonoBehaviour
 {
-    public List<Platform> listPlatforms;
-    private Platform currentPlatform;
+    public List<StageBehaviour> listStages;
+    public List<Ball> currentBalls;
+    private StageBehaviour currentStageBehaviour;
 
     private void Start()
     {
-        //currentPlatform = listPlatforms[0];
+        currentStageBehaviour = listStages[LevelManager.instance.GetCurrentStagIndex()];
     }
+
+    public void AddStageToList(StageBehaviour behaviour)
+    {
+        listStages.Add(behaviour);
+    }
+
+    public StageBehaviour GetCurrentStage()
+    {
+        return currentStageBehaviour;
+    }
+
+    public int GetLCurrentLimitBall()
+    {
+        Stage data = LevelManager.instance.GetCurrentStageData();
+        return data.ballNeeded;
+    }
+    
+    
 }

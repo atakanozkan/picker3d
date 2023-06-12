@@ -8,8 +8,8 @@ public class Stage : ScriptableObject
 {
     public String stageName;
     public GameObject stageObject;
-    public List<GameObject> ballPositionsList;
     public int stageIndex;
+    public PoolItemType ItemType;
     public int ballNeeded;
     public bool isEndStage;
 }

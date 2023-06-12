@@ -15,4 +15,4 @@ MonoBehaviour:
   LevelIndex: 0
   stages:
   - {fileID: 11400000, guid: 1a10074c08ca14e098127cd51ea74ab0, type: 2}
-  - {fileID: 11400000, guid: 1a10074c08ca14e098127cd51ea74ab0, type: 2}
+  - {fileID: 11400000, guid: 533850fc8557f412885b3fe243f912f1, type: 2}

@@ -14,17 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageName: Stage 1
   stageObject: {fileID: 1020207579852937383, guid: 03d9f168dfb92492fb0794ec90107782, type: 3}
-  ballPositionsList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   stageIndex: 1
+  ItemType: 1
   ballNeeded: 5
   isEndStage: 0

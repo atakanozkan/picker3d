@@ -7,11 +7,7 @@ namespace Models.Managers
 {
     public class CollectManager : MonoBehaviour
     {
-        private List<Ball> collectedBalls;
+        public List<Ball> collectedBalls;
 
-        private void OnCollisionEnter(Collision collision)
-        {
-           
-        }
     }
 }

@@ -15,5 +15,6 @@ MonoBehaviour:
   stageName: Stage 4
   stageObject: {fileID: 0}
   stageIndex: 4
+  ItemType: 4
   ballNeeded: 14
   isEndStage: 1

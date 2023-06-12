@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Helpers.Enums;
 
@@ -10,18 +11,20 @@ namespace Models.Managers
         private Vector3 targetPosition;
         private float offset;
         private Camera cam;
+        private PlayerController playerController;
         private bool canMoveHorizontal = false;
 
         private void Start()
         {
             cam= Camera.main;
+            playerController = GameManager.instance.GetPlayerController();
         }
 
         void Update()
         {
             GetHorizontalInput();
         }
-        
+
         private void GetHorizontalInput()
         {
             if (!GameManager.instance.currentGameState.HasFlag(GameState.Moving))
@@ -34,25 +37,17 @@ namespace Models.Managers
                 lastPosition = Input.mousePosition;
             }
 
-            if (Input.GetMouseButton(0))
+            else if (Input.GetMouseButton(0))
             {
-                canMoveHorizontal = true;
+                targetPosition = Input.mousePosition;
+                offset = (targetPosition.x - lastPosition.x) / Screen.width * 2.5f;
+                lastPosition = targetPosition;
             }
-
-            if (Input.GetMouseButtonUp(0))
+            else
             {
-                canMoveHorizontal = false;
+                offset = 0;
             }
-
-            if (canMoveHorizontal)
-            {
-                    targetPosition = Input.mousePosition;
-                    offset = targetPosition.x - lastPosition.x;
-                    lastPosition = targetPosition;
-                    GameManager.instance.onPlayerMoveHorizontal?.Invoke(offset);
-
-            }
-            
+            playerController.SetHorizontalMovement(offset);
         }
     }
     
