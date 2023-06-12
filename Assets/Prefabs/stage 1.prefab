@@ -1827,6 +1827,11 @@ MonoBehaviour:
   _collider: {fileID: 3679423123481367494}
   upPoint: {fileID: 3230143756764354653}
   collectedBalls: []
+  cubeRenderer: {fileID: 4773374071156128042}
+  listRedBarricades:
+  - {fileID: 6637475079802238095}
+  - {fileID: 1844928453942539670}
+  - {fileID: 6466837571220639324}
   isPlatformUp: 0
   isCollisonClosed: 0
 --- !u!1 &7203566519832981498

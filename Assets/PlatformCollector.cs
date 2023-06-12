@@ -14,9 +14,12 @@ public class PlatformCollector : MonoBehaviour
     [SerializeField] private GameObject barricadeLine;
     [SerializeField] private BoxCollider _collider;
     [SerializeField] private GameObject upPoint;
-    [SerializeField] private List<Ball> collectedBalls; 
+    [SerializeField] private List<Ball> collectedBalls;
+    [SerializeField] private MeshRenderer cubeRenderer;
+    [SerializeField] private List<GameObject> listRedBarricades;
     public bool isPlatformUp = false;
     public bool isCollisonClosed = false;
+    private int numberofcollected = 0;
     private int numberOfLimit;
 
     private void Start()
@@ -29,6 +32,7 @@ public class PlatformCollector : MonoBehaviour
     public void CollectArrivedBall(Ball ball)
     {
         collectedBalls.Add(ball);
+        numberofcollected++;
         String collectedMessage = collectedBalls.Count+"/"+numberOfLimit;
         SetText(collectedMessage);
     }
@@ -40,9 +44,33 @@ public class PlatformCollector : MonoBehaviour
 
     private void MoveThePlatform()
     {
-        transform.DOMoveY(upPoint.transform.position.y, 1f, true).OnComplete(
-            () => { isPlatformUp = true; GameManager.instance.ChangeGameState(GameState.Moving); }
-        );
+        if (numberofcollected < numberOfLimit)
+        {
+            return;
+        }
+
+        Color targetColor = new Color(80/255f, 248/255f, 6/255f); // Color #50F806
+        Vector3 targetVector = new Vector3(transform.position.x,
+            upPoint.transform.position.y,
+            transform.position.z);
+            
+        transform.DOMove(targetVector,2f)
+            .OnStart(() =>
+            {
+                UnActivateRedBarricades();
+                cubeRenderer.material.color = cubeRenderer.material.color;
+            })
+            .OnUpdate(() => 
+            {
+                cubeRenderer.material.color = Color.Lerp(cubeRenderer.material.color, targetColor, Time.deltaTime);
+            })
+            .OnComplete(() =>
+            {
+                cubeRenderer.material.color = targetColor;
+
+                isPlatformUp = true;
+                GameManager.instance.ChangeGameState(GameState.Moving);
+            });
     }
     
     private IEnumerator DelayCollection()
@@ -58,6 +86,14 @@ public class PlatformCollector : MonoBehaviour
         if (state.HasFlag(GameState.Dropping))
         {
             StartCoroutine(DelayCollection());
+        }
+    }
+
+    public void UnActivateRedBarricades()
+    {
+        foreach (var barricade in listRedBarricades)
+        {
+            barricade.SetActive(false);
         }
     }
     
