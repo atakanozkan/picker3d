@@ -6,28 +6,26 @@ using Helpers.Enums;
 using Models.Managers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlatformCollector : MonoBehaviour
 {
-    #region PUBLIC FILEDS
-        public bool isPlatformUp = false;
-        public bool isCollisonClosed = false;
-        private int _numberOfCollected = 0;
-        private int _numberOfLimit;
-        #endregion
+    public bool isPlatformUp = false;
+    public bool isCollisonClosed = false;
+    private const float DROP_TIME = 2f;
+    private int _numberOfCollected = 0;
+    private int _numberOfLimit;
+    private bool timerStart;
+    private float remainingDropTime;
+    private int lastLimit;
 
-    #region SERIALIZEFIELDS
-        [SerializeField] private TextMeshPro text;
-        [SerializeField] private GameObject upPoint;
-        [SerializeField] private List<Ball> collectedBalls;
-        [SerializeField] private MeshRenderer cubeRenderer;
-        [SerializeField] private BoxCollider dropLine;
-        [SerializeField] private List<GameObject> listRedBarricades;
-        [SerializeField] private List<GameObject> barricadeLineParents;
-    #endregion
-
- 
+    [SerializeField] private TextMeshPro text;
+    [SerializeField] private GameObject upPoint;
+    [SerializeField] private List<Ball> collectedBalls;
+    [SerializeField] private MeshRenderer cubeRenderer;
+    [SerializeField] private BoxCollider dropLine;
+    [SerializeField] private List<GameObject> listRedBarricades;
+    [SerializeField] private List<GameObject> barricadeLineParents;
+    [SerializeField] private PoolItemType stageType;
 
     private void Start()
     {
@@ -43,41 +41,48 @@ public class PlatformCollector : MonoBehaviour
         {
             SetLimit(tempLimit);
         }
-        
+
+        StartAndCheckTimer();
     }
 
-    public void CollectArrivedBall(Ball ball)
+    private void StartAndCheckTimer()
     {
-        collectedBalls.Add(ball);
-        _numberOfCollected++;
-        String collectedMessage = collectedBalls.Count+"/"+_numberOfLimit;
-        SetText(collectedMessage);
-    }
+        if (timerStart)
+        {
+            if (isPlatformUp)
+            {
+                timerStart = false;
+                return;
+            }
 
-    private void SetLimit(int limit)
-    {
-        _numberOfLimit = limit;
-        String resetMessage = 0+"/"+_numberOfLimit;
-        SetText(resetMessage);
+            if (_numberOfCollected >= lastLimit)
+            {
+                GameManager.instance.OnCollectedBallEvent?.Invoke();
+                CheckStageDone();
+                remainingDropTime = 0;
+                timerStart = false;
+                return;
+            }
+            if (remainingDropTime > 0)
+            {
+                remainingDropTime -= Time.deltaTime;
+            }
+            else
+            {
+                GameManager.instance.ChangeGameState(GameState.Lose);
+                remainingDropTime = 0;
+                timerStart = false;
+            }
+        }
     }
 
     private void CheckStageDone()
     {
-        if (_numberOfCollected < _numberOfLimit)
-        {
-            return;
-        }
-
         if (!isCollisonClosed)
         {
             isCollisonClosed = true;
         }
-        else
-        {
-            return;
-        }
         MoveThePlatform();
-        
     }
     
     private void MoveThePlatform()
@@ -112,23 +117,33 @@ public class PlatformCollector : MonoBehaviour
         GameManager.instance.OnStageEnd?.Invoke();
         GameManager.instance.ChangeGameState(GameState.Moving);
     }
-    
-    private IEnumerator DelayCollection()
-    {
-        yield return new WaitForSeconds(2);
-        GameManager.instance.OnCollectedBallEvent?.Invoke();
-        CheckStageDone();
-    }
-
-
 
     private void WaitDroppingFinish(GameState state)
     {
-        if (state.HasFlag(GameState.Dropping))
+        PoolItemType itemType = LevelManager.instance.GetCurrentStageData().ItemType;
+        Debug.Log("current type = " + itemType + "       we have : "+ stageType);
+        if (state.HasFlag(GameState.Dropping) && itemType == stageType)
         {
-            Debug.Log("Start coroutine");
-            StartCoroutine(DelayCollection());
+            Debug.Log("sxxxxxxxxxxxxxx");
+            lastLimit = _numberOfLimit;
+            remainingDropTime = DROP_TIME;
+            timerStart = true;
         }
+    }
+    
+    public void CollectArrivedBall(Ball ball)
+    {
+        collectedBalls.Add(ball);
+        _numberOfCollected++;
+        String collectedMessage = collectedBalls.Count+"/"+_numberOfLimit;
+        SetText(collectedMessage);
+    }
+
+    private void SetLimit(int limit)
+    {
+        _numberOfLimit = limit;
+        String resetMessage = 0+"/"+_numberOfLimit;
+        SetText(resetMessage);
     }
 
     private void UnActivateRedBarricades()
@@ -146,19 +161,29 @@ public class PlatformCollector : MonoBehaviour
             barricade.transform.DORotate(new Vector3(90, 0, 0), 1.5f);
         }
     }
-    
+
     private void SetText(String str)
     {
         text.text = str;
     }
-    
+
+    private void ResetCollector()
+    {
+        _numberOfCollected = 0;
+        collectedBalls.Clear();
+        isPlatformUp = false;
+        isCollisonClosed = false;
+    }
+
     private void OnEnable()
     {
         GameManager.instance.OnGameStateChanged += WaitDroppingFinish;
+        GameManager.instance.OnTryAgain += ResetCollector;
     }
 
     private void OnDisable()
     {
         GameManager.instance.OnGameStateChanged -= WaitDroppingFinish;
+        GameManager.instance.OnTryAgain -= ResetCollector;
     }
 }

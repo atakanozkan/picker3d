@@ -2092,6 +2092,7 @@ MonoBehaviour:
   barricadeLineParents:
   - {fileID: 3417942771417057669}
   - {fileID: 1670595198039848752}
+  stageType: 3
 --- !u!1 &7203566519832981498
 GameObject:
   m_ObjectHideFlags: 0

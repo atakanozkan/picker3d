@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02749076d767b4921b63fb5d8e709fe8, type: 3}
-  m_Name: Stage 2
+  m_Name: Stage 6
   m_EditorClassIdentifier: 
-  stageName: Stage 2
-  stageIndex: 2
-  stageObject: {fileID: 1020207579852937383, guid: 2576c00648e6640de932c4619235cf6e, type: 3}
-  ItemType: 2
-  ballNeeded: 7
+  stageName: Stage 4
+  stageIndex: 6
+  stageObject: {fileID: 1020207579852937383, guid: 3fc0b9e4e5fa949d5b53ba7476a0468d, type: 3}
+  ItemType: 6
+  ballNeeded: 12
   isEndStage: 0

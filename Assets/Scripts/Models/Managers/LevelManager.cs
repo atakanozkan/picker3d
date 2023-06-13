@@ -5,6 +5,7 @@ using Helpers.Enums;
 using Helpers.Patterns;
 using Models.Managers;
 using UnityEngine;
+using Models.Builders;
 
 public class LevelManager : Singleton<LevelManager>
 {
@@ -34,8 +35,27 @@ public class LevelManager : Singleton<LevelManager>
         
 
         
-        GameManager.instance.GetPlatformBuilder().BuildLevel(levelList[indexLevel],currentStageIndex);
+        GameManager.instance.GetPlatformBuilder().BuildAllLevels(levelList,currentStageIndex,currentLevelIndex);
     }
+
+    private void TryAgain()
+    {
+        PlatformBuilder builder = GameManager.instance.GetPlatformBuilder();
+        PlatformController controller = GameManager.instance.GetPlatformController();
+        Player player = GameManager.instance.GetPlayer();
+        foreach (var stage in controller.listStages)
+        {
+            Destroy(stage.gameObject);
+        }
+        controller.listStages.Clear();
+        controller.SetCurrentIndex(0);
+        currentStageIndex = 0;
+        PoolManager.instance.ResetAllPools();
+        player.hasEnteredEndStage = false;
+        builder.BuildAllLevels(levelList,currentStageIndex,currentLevelIndex);
+        controller.UpdateCurrentBehaviour(0);
+    }
+    
 
     private void SaveData()
     {
@@ -63,12 +83,34 @@ public class LevelManager : Singleton<LevelManager>
         return levelList[currentLevelIndex].stages[currentStageIndex];
     }
 
-    private void GoToNextLevel(GameState state)
+    public List<Level> GetALlLevels()
     {
-        if (state == GameState.Win)
+        return levelList;
+    }
+
+    private bool CheckIfNextLevelLast()
+    {
+        if (currentLevelIndex + 1 > levelList.Count)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void GoToNextLevel()
+    {
+        bool check = CheckIfNextLevelLast();
+        if (check)
+        {
+            GameManager.instance.OnGameFinished?.Invoke();
+        }
+        else
         {
             currentLevelIndex++;
             currentStageIndex = 0;
+            GameManager.instance.GetPlayerController().MoveToNextLevel(currentLevelIndex);
+            
         }
     }
 
@@ -85,10 +127,10 @@ public class LevelManager : Singleton<LevelManager>
         {
             return;
         }
-
+        
         currentStageIndex++;
     }
-    
+
     private void OnApplicationQuit()
     {
         SaveData();
@@ -96,13 +138,15 @@ public class LevelManager : Singleton<LevelManager>
 
     private void OnEnable()
     {
-        GameManager.instance.OnGameStateChanged += GoToNextLevel;
+        GameManager.instance.OnNextLevel += GoToNextLevel;
         GameManager.instance.OnStageEnd += UnlockNextStage;
+        GameManager.instance.OnTryAgain += TryAgain;
     }
 
     private void OnDisable()
     {
-        GameManager.instance.OnGameStateChanged -= GoToNextLevel;
+        GameManager.instance.OnNextLevel -= GoToNextLevel;
         GameManager.instance.OnStageEnd -= UnlockNextStage;
+        GameManager.instance.OnTryAgain -= TryAgain;
     }
 }

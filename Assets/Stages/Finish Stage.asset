@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Finish Stage
   m_EditorClassIdentifier: 
   stageName: Finish
-  stageObject: {fileID: 0}
   stageIndex: 0
+  stageObject: {fileID: 1020207579852937383, guid: beb5ebb074cb340baa09dffa5f7bf6ff, type: 3}
   ItemType: 5
   ballNeeded: 0
   isEndStage: 1

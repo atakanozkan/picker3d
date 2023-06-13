@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageName: Stage 3
   stageIndex: 3
+  stageObject: {fileID: 1020207579852937383, guid: 32e2ac8c7d6ba4efeb12c3cd932ee019, type: 3}
   ItemType: 3
-  ballNeeded: 9
+  ballNeeded: 7
   isEndStage: 0

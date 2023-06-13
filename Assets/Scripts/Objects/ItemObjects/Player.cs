@@ -9,8 +9,8 @@ public class Player : MonoBehaviour
     public float horizontalSpeed = 5.0f;
     public float forwardSpeed = 10.0f;
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private bool hasEnteredEndStage = false;
-    
+    public bool hasEnteredEndStage = false;
+
     private void OnTriggerEnter(Collider other)
     {
         
@@ -20,9 +20,7 @@ public class Player : MonoBehaviour
             if (!stageBehaviour.stageDropDone)
             {
                 hasEnteredEndStage = true;
-                Debug.Log(other.tag);
                 stageBehaviour.stageDropDone = true;
-                
                 GameManager.instance.ChangeGameState(GameState.Dropping);
             }
         }
@@ -54,4 +52,5 @@ public class Player : MonoBehaviour
     {
         return _rigidbody;
     }
+
 }

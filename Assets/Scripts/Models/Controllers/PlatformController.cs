@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Models.Builders;
+using Models.Managers;
 using UnityEngine;
 using Objects;
 public class PlatformController : MonoBehaviour
@@ -31,6 +33,12 @@ public class PlatformController : MonoBehaviour
         return data.ballNeeded;
     }
 
+    public StageBehaviour GetWantedStage(int levelIndex,int stageIndex)
+    {
+        PlatformBuilder builder = GameManager.instance.GetPlatformBuilder();
+        return listStages[levelIndex * builder.GetEachLevelCount()+stageIndex];
+    }
+    
     public void UpdateCurrentBehaviour(int stageIndex)
     {
         if (listStages.Count <= stageIndex)
@@ -40,5 +48,10 @@ public class PlatformController : MonoBehaviour
 
         currentIndex = stageIndex;
         currentStageBehaviour = listStages[currentIndex];
+    }
+
+    public void SetCurrentIndex(int index)
+    {
+        currentIndex = index;
     }
 }

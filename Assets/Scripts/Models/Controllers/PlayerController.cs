@@ -59,6 +59,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void MoveToNextLevel(int nextLevel)
+    {
+        PlatformController controller = GameManager.instance.GetPlatformController();
+        StageBehaviour behaviour = controller.GetWantedStage(nextLevel, 0);
+        Vector3 startPoint = behaviour.startPoint.transform.position;
+        
+        myRb.MovePosition(
+            new Vector3(
+                startPoint.x,
+                myRb.position.y,
+                0f
+                )
+            );
+    }
+
     private void CheckStateMoving(GameState state)
     {
         if (state.HasFlag(GameState.Moving))

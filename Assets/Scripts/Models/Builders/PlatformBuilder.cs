@@ -11,65 +11,55 @@ namespace Models.Builders
         public GameObject ballPrefab;
         public GameObject ballsParent;
         public GameObject player;
-        public List<GameObject> stageList;
 
-        private PlatformController platformController;
+        [SerializeField] private int countEachLevelStages = 4;
+        [SerializeField] private PlatformController platformController;
         
         private void Start()
         {
-            platformController = GameManager.instance.GetPlatformController();
             GenerateBallsForPool();
-            GenerateStages();
         }
 
         private void GenerateBallsForPool()
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 200; i++)
             {
                 GameObject ball = Instantiate(ballPrefab);
                 PoolManager.instance.AddToAvailable(ball.GetComponent<PoolItem>());
             }
         }
 
-        private void GenerateStages()
+        public void BuildAllLevels(List<Level> levelList,int stageIndex,int levelIndex)
         {
-            foreach (var stage in stageList)
+            foreach (Level level in levelList)
             {
-                for (int i = 0; i < 2; i++)
-                {
-                    GameObject stageObj = Instantiate(stage);
-                    PoolManager.instance.AddToAvailable(stageObj.GetComponent<PoolItem>());
-                }
+                BuildLevel(level,stageIndex,levelIndex);
             }
         }
         
-        public void BuildLevel(Level level,int stageIndex)
-        {
-            foreach (Stage stage in level.stages)
-            {
-                Debug.Log(stage);
-            }
 
+        public void BuildLevel(Level level,int stageIndex,int levelIndex)
+        {
             for (int index = 0; index < level.stages.Count; index++)
             {
-                Debug.Log( level.stages[index]);
                 Stage stage = level.stages[index];
                 
-                PoolItem stageItem = PoolManager.instance.GetFromPool(stage.ItemType,null);
-                StageBehaviour stageBehaviour = stageItem.GetComponent<StageBehaviour>();
+                GameObject stageObj = Instantiate(stage.stageObject);
+                
+                StageBehaviour stageBehaviour = stageObj.GetComponent<StageBehaviour>();
                 
                 
-                if (index == 0)
+                if (index == 0&& level.LevelIndex == 0)
                 {
-                    stageItem.gameObject.transform.position = transform.position;
+                    stageObj.gameObject.transform.position = transform.position;
                 }
                 else
                 {
-                    stageItem.gameObject.transform.position =
-                        platformController.listStages[index - 1].endPoint.transform.position;
+                    stageObj.gameObject.transform.position =
+                        platformController.listStages[level.LevelIndex*countEachLevelStages+index - 1].endPoint.transform.position;
                 }
 
-                if (index == stageIndex)
+                if (index == stageIndex && levelIndex == level.LevelIndex)
                 {
                     player.transform.position = stageBehaviour.startPoint.transform.position;
                 }
@@ -85,9 +75,11 @@ namespace Models.Builders
                 }
 
             }
+        }
 
-
-
+        public int GetEachLevelCount()
+        {
+            return countEachLevelStages;
         }
     }
 }

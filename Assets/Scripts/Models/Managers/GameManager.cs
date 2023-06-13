@@ -12,7 +12,10 @@ namespace Models.Managers
         public Player mainPlayer;
         public Action<GameState> OnGameStateChanged;
         public Action OnStageEnd;
+        public Action OnTryAgain;
+        public Action OnNextLevel;
         public Action OnCollectedBallEvent;
+        public Action OnGameFinished;
 
         [SerializeField] private PlatformBuilder platformBuilder;
         [SerializeField] private PlatformController platformController;
@@ -31,6 +34,15 @@ namespace Models.Managers
             }
         }
 
+        public void InvokeTryAgain()
+        {
+            OnTryAgain?.Invoke();
+        }
+
+        public void InvokeNextLevel()
+        {
+            OnNextLevel?.Invoke();
+        }
         public void SetPlayer(Player player)
         {
             mainPlayer = player;

@@ -1980,6 +1980,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe538864183a04fda9dce4c707be4e31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlatformUp: 0
+  isCollisonClosed: 0
   text: {fileID: 3860951023293784006}
   upPoint: {fileID: 3230143756764354653}
   collectedBalls: []
@@ -1992,8 +1994,7 @@ MonoBehaviour:
   barricadeLineParents:
   - {fileID: 3417942771417057669}
   - {fileID: 1670595198039848752}
-  isPlatformUp: 0
-  isCollisonClosed: 0
+  stageType: 2
 --- !u!1 &7203566519832981498
 GameObject:
   m_ObjectHideFlags: 0
