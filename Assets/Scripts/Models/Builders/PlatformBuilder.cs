@@ -59,7 +59,7 @@ namespace Models.Builders
                         platformController.listStages[level.LevelIndex*countEachLevelStages+index - 1].endPoint.transform.position;
                 }
 
-                if (index == stageIndex && levelIndex == level.LevelIndex)
+                if (index == 0 && levelIndex == level.LevelIndex)
                 {
                     player.transform.position = stageBehaviour.startPoint.transform.position;
                 }

@@ -11,6 +11,6 @@ public enum PoolItemType
     Stage4 = 4,
     Stage5= 5,
     Stage6 = 6,
-    FinishStage= 5,
+    Finish= 5,
 
 }

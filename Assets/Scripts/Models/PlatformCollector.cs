@@ -54,22 +54,22 @@ public class PlatformCollector : MonoBehaviour
                 timerStart = false;
                 return;
             }
-
-            if (_numberOfCollected >= lastLimit)
-            {
-                GameManager.instance.OnCollectedBallEvent?.Invoke();
-                CheckStageDone();
-                remainingDropTime = 0;
-                timerStart = false;
-                return;
-            }
             if (remainingDropTime > 0)
             {
                 remainingDropTime -= Time.deltaTime;
             }
             else
             {
-                GameManager.instance.ChangeGameState(GameState.Lose);
+                if (_numberOfCollected >= lastLimit)
+                {
+                    GameManager.instance.OnCollectedBallEvent?.Invoke();
+                    CheckStageDone();
+                }
+                else
+                {
+                    GameManager.instance.ChangeGameState(GameState.Lose);
+                }
+                
                 remainingDropTime = 0;
                 timerStart = false;
             }
@@ -91,40 +91,35 @@ public class PlatformCollector : MonoBehaviour
         Vector3 targetVector = new Vector3(transform.position.x,
             upPoint.transform.position.y,
             transform.position.z);
-            
-        transform.DOMove(targetVector,2f)
-            .OnStart(() =>
-            {
-                UnActivateRedBarricades();
-                cubeRenderer.material.color = cubeRenderer.material.color;
-            })
-            .OnUpdate(() => 
-            {
-                cubeRenderer.material.color = Color.Lerp(cubeRenderer.material.color, targetColor, Time.deltaTime);
-            })
-            .OnComplete(() =>
-            {
-                cubeRenderer.material.color = targetColor;
-                EnableMovementNextStage();
-            });
+
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(transform.DOMove(targetVector,2f).OnStart(UnActivateRedBarricades));    
+        sequence.Insert(0, cubeRenderer.material.DOColor(targetColor, 2f));
+        
+        sequence.OnComplete(() => 
+        {
+            GameManager.instance.ChangeGameState(GameState.Moving);
+            cubeRenderer.material.color = targetColor;
+            EnableMovementNextStage();
+        });
     }
 
     private void EnableMovementNextStage()
     {
+
         RotateTheBarricadeLines();
         isPlatformUp = true;
         collectedBalls.Clear();
         GameManager.instance.OnStageEnd?.Invoke();
-        GameManager.instance.ChangeGameState(GameState.Moving);
+        Debug.Log("XXXXXXXXX");
+
     }
 
     private void WaitDroppingFinish(GameState state)
     {
         PoolItemType itemType = LevelManager.instance.GetCurrentStageData().ItemType;
-        Debug.Log("current type = " + itemType + "       we have : "+ stageType);
         if (state.HasFlag(GameState.Dropping) && itemType == stageType)
         {
-            Debug.Log("sxxxxxxxxxxxxxx");
             lastLimit = _numberOfLimit;
             remainingDropTime = DROP_TIME;
             timerStart = true;

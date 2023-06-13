@@ -60,7 +60,6 @@ public class LevelManager : Singleton<LevelManager>
     private void SaveData()
     {
         PlayerPrefs.SetInt("LevelIndex",currentLevelIndex);
-        PlayerPrefs.SetInt("StageIndex",currentStageIndex);
     }
 
     public int GetCurrentLevelIndex()

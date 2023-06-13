@@ -141,6 +141,7 @@ namespace Models.Managers
             GameManager.instance.OnGameStateChanged += ControlPanels;
             GameManager.instance.OnTryAgain += SetTryAgain;
             GameManager.instance.OnNextLevel += SetNextLevel;
+            GameManager.instance.OnStageEnd += SetStagesOnUI;
         }
 
         private void OnDisable()
@@ -148,6 +149,7 @@ namespace Models.Managers
             GameManager.instance.OnGameStateChanged -= ControlPanels;
             GameManager.instance.OnTryAgain -= SetTryAgain;
             GameManager.instance.OnNextLevel -= SetNextLevel;
+            GameManager.instance.OnStageEnd -= SetStagesOnUI;
         }
     }
     
