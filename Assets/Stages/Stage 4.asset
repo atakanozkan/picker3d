@@ -16,5 +16,5 @@ MonoBehaviour:
   stageIndex: 4
   stageObject: {fileID: 1020207579852937383, guid: 3a416e2d9e88d4f2ebe6d12216dabdb1, type: 3}
   ItemType: 4
-  ballNeeded: 10
+  ballNeeded: 8
   isEndStage: 0

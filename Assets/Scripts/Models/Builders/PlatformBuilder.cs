@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Models.Managers;
 using UnityEngine;
@@ -8,10 +7,9 @@ namespace Models.Builders
 {
     public class PlatformBuilder : MonoBehaviour
     {
-        public GameObject ballPrefab;
-        public GameObject ballsParent;
-        public GameObject player;
-
+        [SerializeField] private GameObject ballPrefab;
+        [SerializeField] private GameObject ballsParent;
+        [SerializeField] private GameObject player;
         [SerializeField] private int countEachLevelStages = 4;
         [SerializeField] private PlatformController platformController;
         
@@ -38,7 +36,7 @@ namespace Models.Builders
         }
         
 
-        public void BuildLevel(Level level,int stageIndex,int levelIndex)
+        private void BuildLevel(Level level,int stageIndex,int levelIndex)
         {
             for (int index = 0; index < level.stages.Count; index++)
             {

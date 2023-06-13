@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Models.Managers;
-using Objects;
+using Models.Collectors;
 using UnityEngine;
 
 public class CollectingDetector : MonoBehaviour

@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
-using Helpers.Enums;
 using Models.Managers;
 using UnityEngine;
 
@@ -95,3 +90,4 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.OnGameStateChanged -= CheckStateMoving;
     }
 }
+

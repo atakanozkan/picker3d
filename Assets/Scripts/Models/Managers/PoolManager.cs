@@ -111,6 +111,12 @@ namespace Models.Managers
                 return;
             }
 
+            if (poolItem.GetPoolItemType() == PoolItemType.Ball)
+            {
+                Rigidbody mRb = poolItem.GetComponent<Rigidbody>();
+                mRb.velocity = Vector3.zero;
+                mRb.angularVelocity = Vector3.zero;
+            }
             objectPool.usingQueue.Remove(poolItem);
             AddToAvailable(poolItem);
         }

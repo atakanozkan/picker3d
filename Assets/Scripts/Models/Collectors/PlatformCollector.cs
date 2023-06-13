@@ -1,13 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using Helpers.Enums;
 using Models.Managers;
 using TMPro;
 using UnityEngine;
 
-public class PlatformCollector : MonoBehaviour
+
+namespace Models.Collectors
+{
+    public class PlatformCollector : MonoBehaviour
 {
     public bool isPlatformUp = false;
     public bool isCollisonClosed = false;
@@ -98,6 +99,7 @@ public class PlatformCollector : MonoBehaviour
         
         sequence.OnComplete(() => 
         {
+            GameManager.instance.OnStageEnd?.Invoke();
             GameManager.instance.ChangeGameState(GameState.Moving);
             cubeRenderer.material.color = targetColor;
             EnableMovementNextStage();
@@ -110,9 +112,6 @@ public class PlatformCollector : MonoBehaviour
         RotateTheBarricadeLines();
         isPlatformUp = true;
         collectedBalls.Clear();
-        GameManager.instance.OnStageEnd?.Invoke();
-        Debug.Log("XXXXXXXXX");
-
     }
 
     private void WaitDroppingFinish(GameState state)
@@ -181,4 +180,6 @@ public class PlatformCollector : MonoBehaviour
         GameManager.instance.OnGameStateChanged -= WaitDroppingFinish;
         GameManager.instance.OnTryAgain -= ResetCollector;
     }
+}
+
 }

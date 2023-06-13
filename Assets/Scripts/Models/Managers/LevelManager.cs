@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Helpers.Enums;
 using Helpers.Patterns;
 using Models.Managers;
 using UnityEngine;
@@ -55,7 +52,26 @@ public class LevelManager : Singleton<LevelManager>
         builder.BuildAllLevels(levelList,currentStageIndex,currentLevelIndex);
         controller.UpdateCurrentBehaviour(0);
     }
-    
+
+    private void RestartGame()
+    {
+        PlatformBuilder builder = GameManager.instance.GetPlatformBuilder();
+        PlatformController controller = GameManager.instance.GetPlatformController();
+        Player player = GameManager.instance.GetPlayer();
+        foreach (var stage in controller.listStages)
+        {
+            Destroy(stage.gameObject);
+        }
+        controller.listStages.Clear();
+        controller.SetCurrentIndex(0);
+        currentStageIndex = 0;
+        currentLevelIndex = 0;
+        SaveData();
+        PoolManager.instance.ResetAllPools();
+        player.hasEnteredEndStage = false;
+        builder.BuildAllLevels(levelList,currentStageIndex,currentLevelIndex);
+        controller.UpdateCurrentBehaviour(0);
+    }
 
     private void SaveData()
     {
@@ -87,9 +103,9 @@ public class LevelManager : Singleton<LevelManager>
         return levelList;
     }
 
-    private bool CheckIfNextLevelLast()
+    public bool CheckIfLevelLast()
     {
-        if (currentLevelIndex + 1 > levelList.Count)
+        if (currentLevelIndex + 1 >= levelList.Count)
         {
             return true;
         }
@@ -99,10 +115,13 @@ public class LevelManager : Singleton<LevelManager>
 
     private void GoToNextLevel()
     {
-        bool check = CheckIfNextLevelLast();
+        bool check = CheckIfLevelLast();
         if (check)
         {
-            GameManager.instance.OnGameFinished?.Invoke();
+            TryAgain();
+            currentLevelIndex=0;
+            currentStageIndex = 0;
+            RestartGame();
         }
         else
         {

@@ -1,13 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Helpers.Enums;
 using Models.Managers;
 using Objects;
 using Objects.Poolings;
 using UnityEngine;
-using UnityEngine.Serialization;
-
 public class Ball : Collectable
 {
     public float forceRate = 10000f;

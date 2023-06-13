@@ -1,7 +1,5 @@
 using System;
 using Helpers.Patterns;
-using Helpers.Enums;
-using Objects;
 using UnityEngine;
 using Models.Builders;
 namespace Models.Managers

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02749076d767b4921b63fb5d8e709fe8, type: 3}
   m_Name: Stage 5
   m_EditorClassIdentifier: 
-  stageName: Stage 4
+  stageName: Stage 5
   stageIndex: 5
   stageObject: {fileID: 1020207579852937383, guid: 8fe3ed76b541641fd90e8090f81acd42, type: 3}
   ItemType: 5
-  ballNeeded: 10
+  ballNeeded: 12
   isEndStage: 0

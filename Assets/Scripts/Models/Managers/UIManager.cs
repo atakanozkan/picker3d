@@ -1,23 +1,23 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Helpers.Enums;
 using DG.Tweening;
 using TMPro;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Models.Managers
 {
     public class UIManager : MonoBehaviour
     {
-        public CanvasGroup initialPanel;
-        public CanvasGroup losePanel;
-        public CanvasGroup winPanel;
-        public CanvasGroup gamePanel;
         public Image mainMask;
         public TextMeshProUGUI currentLevelText;
         public TextMeshProUGUI nextLevelText;
+        
+        [SerializeField] private CanvasGroup initialPanel;
+        [SerializeField] private CanvasGroup losePanel;
+        [SerializeField] private CanvasGroup winPanel;
+        [SerializeField] private CanvasGroup gamePanel;
+        [SerializeField] private CanvasGroup completePanel;
         [SerializeField] private List<Image> stageImageList;
         private int currentLevelValue;
         private bool gameStarted;
@@ -55,19 +55,38 @@ namespace Models.Managers
         private void SetStagesOnUI()
         {
             int stageIndex = LevelManager.instance.GetCurrentStagIndex();
+            if (stageIndex >= stageImageList.Count)
+            {
+                stageIndex = stageImageList.Count;
+            }
 
-            for (int i = 0; i <= stageIndex; i++)
+            for (int i = 0; i < stageIndex; i++)
             {
                 if (stageImageList[i].color != completedColor)
                 {
-                    stageImageList[i].color = Color.Lerp(stageImageList[i].color, completedColor, 0);
-                    stageImageList[i].DOFade(1f, 1f);
+                    Debug.Log("Change color!");
+                    stageImageList[i].color = completedColor;
                 }
             }
         }
+
+        private void ResetStagesOnUI()
+        {
+            for (int i = 0; i < stageImageList.Count; i++)
+            {
+
+                stageImageList[i].color = Color.white;
+            }
+        }
+        
         private void FadeInWinPanel()
         {
             winPanel.gameObject.SetActive(true);
+        }
+
+        private void FadeCompletePanel()
+        {
+            completePanel.gameObject.SetActive(true);
         }
 
         private void FadeInLosePanel()
@@ -95,26 +114,38 @@ namespace Models.Managers
                 Sequence sequence = DOTween.Sequence();
                 sequence.PrependInterval(0.8f).OnComplete(() => FadeInWinPanel());
             }
+            else if (gameState.HasFlag(GameState.Complete))
+            {
+                gamePanel.gameObject.SetActive(false);
+                mainMask.DOFade(0.5f, 0.5f).SetDelay(0.8f).From(0f);
+                SetMaskState(mainMask, true);
+                Sequence sequence = DOTween.Sequence();
+                sequence.PrependInterval(0.8f).OnComplete(() => FadeCompletePanel());
+            }
         }
 
         private void SetTryAgain()
         {
             gamePanel.gameObject.SetActive(false);
             winPanel.gameObject.SetActive(false);
+            completePanel.gameObject.SetActive(false);
             losePanel.gameObject.SetActive(false);
             mainMask.gameObject.SetActive(false);
             initialPanel.gameObject.SetActive(true);
             gameStarted = false;
+            ResetStagesOnUI();
         }
         
         private void SetNextLevel()
         {
             gamePanel.gameObject.SetActive(false);
             winPanel.gameObject.SetActive(false);
+            completePanel.gameObject.SetActive(false);
             losePanel.gameObject.SetActive(false);
             mainMask.gameObject.SetActive(false);
             initialPanel.gameObject.SetActive(true);
             gameStarted = false;
+            ResetStagesOnUI();
         }
         
         private void SetMaskState(Image mask, bool isActive, Action onClickAction = null)

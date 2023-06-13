@@ -1,7 +1,5 @@
 using System;
 
-namespace Helpers.Enums
-{
     [Flags]
     public enum GameState
     {
@@ -11,7 +9,8 @@ namespace Helpers.Enums
         Dropping = 4,
         Pause = 8,
         Lose = 16,
-        Win = 32
+        Win = 32,
+        Complete = 64,
     }
-}
+
 
